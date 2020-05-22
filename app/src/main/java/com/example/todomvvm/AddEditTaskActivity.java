@@ -98,7 +98,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                AppDatabase.getInstance(getApplicationContext()).taskDao().insertTasks(task);
+                AppDatabase.getInstance(getApplicationContext()).taskDao().insertTask(task);
             }
         });
 

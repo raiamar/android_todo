@@ -16,10 +16,13 @@ public interface TaskDao {
     List<TaskEntry> loadAllTasks();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Void insertTasks(TaskEntry task);
+    void insertTask(TaskEntry task);
 
     @Update
-    Void update (TaskEntry task);
+    void update(TaskEntry task);
 
-    Void deleteTask(TaskEntry task);
+    @Delete
+    void deleteTask(TaskEntry task);
+
+
 }
