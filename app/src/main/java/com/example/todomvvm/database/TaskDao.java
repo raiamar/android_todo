@@ -16,7 +16,7 @@ public interface TaskDao {
     List<TaskEntry> loadAllTasks();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTask(TaskEntry task);
+    void insertTasks(TaskEntry task);
 
     @Update
     void update(TaskEntry task);
