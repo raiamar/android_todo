@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         });
 
         database = AppDatabase.getInstance(getApplicationContext());
-        setUpViewModel();
+        retrieveTasks();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
     }
 
-    private void setUpViewModel() {
+    private void retrieveTasks() {
        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         
         viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {

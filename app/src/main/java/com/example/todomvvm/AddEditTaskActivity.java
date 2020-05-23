@@ -3,6 +3,7 @@ package com.example.todomvvm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,16 +54,18 @@ public class AddEditTaskActivity extends AppCompatActivity {
             mButton.setText(R.string.update_button);
             if (mTaskId == DEFAULT_TASK_ID) {
                 mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
-                final LiveData<TaskEntry> task = AppDatabase.getInstance(getApplicationContext())
-                        .taskDao().loadTaskById(mTaskId);
-                task.observe(this, new Observer<TaskEntry>() {
+                AddEditTaskViewModelFactory factory = new AddEditTaskViewModelFactory(getApplication(), mTaskId);
+                final AddEditTaskViewModel viewModel = ViewModelProviders.of(this,factory).get(AddEditTaskViewModel.class);
+                viewModel.getTask().observe(this, new Observer<TaskEntry>() {
                     @Override
                     public void onChanged(TaskEntry taskEntry) {
                         Log.d(TAG, "Receiving database update from LiveData");
-                        task.removeObserver(this);
+                        viewModel.getTask().removeObserver(this);
                         populateUI(taskEntry);
                     }
                 });
+
+
 
 
                 // populate the UI
