@@ -3,6 +3,7 @@ package com.example.todomvvm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
 
-    AppDatabase database;
+    MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +67,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        int position = viewHolder.getAdapterPosition();
-                        TaskEntry task = mAdapter.getTasks().get(position);
-                        database.taskDao().deleteTask(task);
+                int position = viewHolder.getAdapterPosition();
+                TaskEntry task = mAdapter.getTasks().get(position);
+                viewModel.deleteTask(task);
 
-                    }
-                });
             }
         }).attachToRecyclerView(mRecyclerView);
 
@@ -94,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             }
         });
 
-        database = AppDatabase.getInstance(getApplicationContext());
         retrieveTasks();
     }
 
@@ -114,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     }
 
     private void retrieveTasks() {
-       MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         
         viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
             @Override
