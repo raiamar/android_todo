@@ -3,6 +3,7 @@ package com.example.todomvvm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         });
 
         database = AppDatabase.getInstance(getApplicationContext());
-        retrieveTasks();
+        setUpViewModel();
     }
 
     @Override
@@ -112,13 +113,13 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
     }
 
-    private void retrieveTasks() {
-        Log.d(TAG, "task is reterived from database");
-        final LiveData<List<TaskEntry>> task =  database.taskDao().loadAllTasks();
-        task.observe(this, new Observer<List<TaskEntry>>() {
+    private void setUpViewModel() {
+       MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        
+        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
-                Log.d(TAG, "task is reterived from Livedata");
+                Log.d(TAG, "task is reterived from Livedata in ViewModel");
                 mAdapter.setTasks(taskEntries);
             }
         });
