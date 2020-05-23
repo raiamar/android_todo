@@ -53,7 +53,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
                 AppDatabase.databaseWriteExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        final TaskEntry task = AppDatabase.getInstance(getApplicationContext()).taskDao().loaddTaskById(mTaskId);
+                        final TaskEntry task = AppDatabase.getInstance(getApplicationContext()).taskDao().loadTaskById(mTaskId);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -117,12 +117,12 @@ public class AddEditTaskActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(mTaskId == DEFAULT_TASK_ID){
-                    AppDatabase.getInstance(getApplicationContext()).taskDao().insertTasks(task);
+                    AppDatabase.getInstance(getApplicationContext()).taskDao().insertTask(task);
                 }else{
                     task.setId(mTaskId);
                     AppDatabase.getInstance(getApplicationContext()).taskDao().update(task);
                 }
-                AppDatabase.getInstance(getApplicationContext()).taskDao().insertTasks(task);
+                AppDatabase.getInstance(getApplicationContext()).taskDao().insertTask(task);
             }
         });
 

@@ -1,5 +1,6 @@
 package com.example.todomvvm.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,10 +14,10 @@ import java.util.List;
 public interface TaskDao {
 
     @Query("select * from task order by priority")
-    List<TaskEntry> loadAllTasks();
+    LiveData<List<TaskEntry>> loadAllTasks();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTasks(TaskEntry task);
+    void insertTask(TaskEntry task);
 
     @Update
     void update(TaskEntry task);
@@ -25,7 +26,7 @@ public interface TaskDao {
     void deleteTask(TaskEntry task);
 
     @Query("select * from task where id = :id")
-    TaskEntry loaddTaskById (int id);
+    LiveData<TaskEntry> loadTaskById(int id);
 
 
 }
