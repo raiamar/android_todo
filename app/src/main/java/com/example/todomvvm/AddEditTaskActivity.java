@@ -39,6 +39,8 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
     private int mTaskId = DEFAULT_TASK_ID;
 
+    AddEditTaskViewModel viewModel;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_task);
@@ -115,25 +117,19 @@ public class AddEditTaskActivity extends AppCompatActivity {
      * It retrieves user input and inserts that new task data into the underlying database.
      */
     public void onSaveButtonClicked() {
-        // Not yet implemented
         String description = mEditText.getText().toString();
         int priority = getPriorityFromViews();
         Date date = new Date();
-        final TaskEntry task = new TaskEntry(description, priority, date);
-        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mTaskId == DEFAULT_TASK_ID){
-                    AppDatabase.getInstance(getApplicationContext()).taskDao().insertTask(task);
-                }
-                else{
-                    task.setId(mTaskId);
-                    AppDatabase.getInstance(getApplicationContext()).taskDao().update(task);
-                }
-            }
-        });
+        TaskEntry todo = new TaskEntry(description, priority, date);
+        if(mTaskId == DEFAULT_TASK_ID)
+            viewModel.addTask(todo);
+        else{
+            todo.setId(mTaskId);
+            viewModel.updateTask(todo);
 
+        }
         finish();
+
 
     }
 
