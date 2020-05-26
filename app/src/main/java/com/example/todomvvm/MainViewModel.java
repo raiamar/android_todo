@@ -33,7 +33,6 @@ public class MainViewModel extends AndroidViewModel {
             public void run() {
 
                 database.taskDao().deleteTask(task);
-
             }
         });
     }

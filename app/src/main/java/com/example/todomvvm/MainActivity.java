@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
     @Override
     protected void onResume() {
-
         super.onResume();
 
     }
