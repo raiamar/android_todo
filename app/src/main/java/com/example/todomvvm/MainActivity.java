@@ -90,7 +90,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             }
         });
 
-        retrieveTasks();
+        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
+            @Override
+            public void onChanged(List<TaskEntry> taskEntries) {
+                mAdapter.setTasks(taskEntries);
+            }
+        });
     }
 
     @Override

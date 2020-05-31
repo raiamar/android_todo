@@ -13,7 +13,7 @@ public LiveData<List<TaskEntry>>getTasks(){
         return dao.loadAllTasks();
 }
 
-public LiveData<List<TaskEntry>> getTaskById(int taskId){
+public LiveData<TaskEntry> getTaskById(int taskId){
         return dao.loadTaskById(taskId);
 }
 
