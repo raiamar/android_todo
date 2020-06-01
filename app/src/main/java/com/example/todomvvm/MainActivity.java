@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -33,11 +34,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
     MainViewModel viewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         // Set the RecyclerView to its corresponding view
         mRecyclerView = findViewById(R.id.recyclerViewTasks);
 
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
                 int position = viewHolder.getAdapterPosition();
                 List<TaskEntry> todoList = mAdapter.getTasks();
                 viewModel.deleteTask(todoList.get(position));
+
             }
         }).attachToRecyclerView(mRecyclerView);
 
@@ -107,5 +110,25 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         startActivity(intent);
     }
 
-  //here is what i removed
+
+    //adddtional
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void retrieveTasks() {
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
+            @Override
+            public void onChanged(List<TaskEntry> taskEntries) {
+                Log.d(TAG, "task is reterived from Livedata in ViewModel");
+                mAdapter.setTasks(taskEntries);
+            }
+        });
+
+    }
+
 }

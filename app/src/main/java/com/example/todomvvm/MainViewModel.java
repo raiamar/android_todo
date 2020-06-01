@@ -19,8 +19,9 @@ public class MainViewModel extends AndroidViewModel {
     private LiveData<List<TaskEntry>> tasks;
     public MainViewModel(@NonNull Application application) {
         super(application);
-        Log.d(TAG, "actively reteriving data form database");
+        Log.d(TAG, "actively reteriving data form MainViewModel");
         repository = new Repository(AppDatabase.getInstance(application));
+        tasks = repository.getTasks();
     }
     public LiveData<List<TaskEntry>> getTasks(){
         return tasks;
