@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.todomvvm.database.AppDatabase;
+import com.example.todomvvm.database.Repository;
 import com.example.todomvvm.database.TaskEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -32,11 +34,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
     MainViewModel viewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         // Set the RecyclerView to its corresponding view
         mRecyclerView = findViewById(R.id.recyclerViewTasks);
 
@@ -66,10 +69,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
             // Called when a user swipes left or right on a ViewHolder
             @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
                 int position = viewHolder.getAdapterPosition();
-                TaskEntry task = mAdapter.getTasks().get(position);
-                viewModel.deleteTask(task);
+                List<TaskEntry> todoList = mAdapter.getTasks();
+                viewModel.deleteTask(todoList.get(position));
 
             }
         }).attachToRecyclerView(mRecyclerView);
@@ -90,17 +94,24 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             }
         });
 
-        retrieveTasks();
+        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
+            @Override
+            public void onChanged(List<TaskEntry> taskEntries) {
+                mAdapter.setTasks(taskEntries);
+            }
+        });
     }
 
     @Override
     public void onItemClickListener(int itemId) {
         // Launch AddTaskActivity adding the itemId as an extra in the intent
-        Intent intent = new Intent(this, AddEditTaskActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddEditTaskActivity.class);
         intent.putExtra(AddEditTaskActivity.EXTRA_TASK_ID, itemId);
         startActivity(intent);
     }
 
+
+    //adddtional
     @Override
     protected void onResume() {
         super.onResume();
@@ -109,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
     private void retrieveTasks() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        
+
         viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
@@ -119,4 +130,5 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         });
 
     }
+
 }
