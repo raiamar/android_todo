@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.todomvvm.database.AppDatabase;
+import com.example.todomvvm.database.Repository;
 import com.example.todomvvm.database.TaskEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -66,11 +67,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
 
             // Called when a user swipes left or right on a ViewHolder
             @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
-                TaskEntry task = mAdapter.getTasks().get(position);
-                viewModel.deleteTask(task);
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
+                int position = viewHolder.getAdapterPosition();
+                List<TaskEntry> todoList = mAdapter.getTasks();
+                viewModel.deleteTask(todoList.get(position));
             }
         }).attachToRecyclerView(mRecyclerView);
 
@@ -101,27 +102,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     @Override
     public void onItemClickListener(int itemId) {
         // Launch AddTaskActivity adding the itemId as an extra in the intent
-        Intent intent = new Intent(this, AddEditTaskActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddEditTaskActivity.class);
         intent.putExtra(AddEditTaskActivity.EXTRA_TASK_ID, itemId);
         startActivity(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    private void retrieveTasks() {
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        
-        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
-            @Override
-            public void onChanged(List<TaskEntry> taskEntries) {
-                Log.d(TAG, "task is reterived from Livedata in ViewModel");
-                mAdapter.setTasks(taskEntries);
-            }
-        });
-
-    }
+  //here is what i removed
 }
