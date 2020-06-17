@@ -20,16 +20,16 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="278dp"
-        android:layout_height="46dp"
+        android:layout_width="269dp"
+        android:layout_height="71dp"
         android:text="Action completed successfully"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.528" />
+        app:layout_constraintVertical_bias="0.531" />
 </androidx.constraintlayout.widget.ConstraintLayout>
