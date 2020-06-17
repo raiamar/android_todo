@@ -8,10 +8,14 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 
 import com.example.todomvvm.database.AppDatabase;
@@ -45,7 +49,6 @@ public class AddEditTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_task);
-
 
         initViews();
 
@@ -94,10 +97,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
         mRadioGroup = findViewById(R.id.radioGroup);
 
         mButton = findViewById(R.id.saveButton);
+
+
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onSaveButtonClicked();
+                onShowButtonClicked();
             }
         });
     }
@@ -118,12 +124,23 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
     }
 
+
+    public void onShowButtonClicked() {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custome_toast, (ViewGroup) findViewById(R.id.add_layout));
+
+        final Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
     /**
      * onSaveButtonClicked is called when the "save" button is clicked.
      * It retrieves user input and inserts that new task data into the underlying database.
      */
     public void onSaveButtonClicked() {
-        // Not yet implemented
         String description = mEditText.getText().toString();
         int priority = getPriorityFromViews();
         Date date = new Date();

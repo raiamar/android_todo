@@ -5,32 +5,31 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bkg"
-    android:id="@+id/toast_layout">
+    android:id="@+id/add_layout">
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="83dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="116dp"
+        android:layout_width="96dp"
+        android:layout_height="88dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_save"
-          />
+        app:layout_constraintVertical_bias="0.52"
+        app:srcCompat="@drawable/smile" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="119dp"
-        android:layout_height="56dp"
-        android:text="Data Saved"
-        android:textSize="20dp"
+        android:layout_width="278dp"
+        android:layout_height="46dp"
+        android:text="Action completed successfully"
         android:textColor="#FFFFFF"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.528" />
 </androidx.constraintlayout.widget.ConstraintLayout>
