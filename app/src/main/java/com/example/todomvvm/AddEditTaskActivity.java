@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+
 import com.example.todomvvm.database.AppDatabase;
 import com.example.todomvvm.database.TaskEntry;
 
@@ -44,7 +45,6 @@ public class AddEditTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_task);
-
 
 
         initViews();
@@ -175,4 +175,5 @@ public class AddEditTaskActivity extends AppCompatActivity {
                 ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton3);
         }
     }
+
 }

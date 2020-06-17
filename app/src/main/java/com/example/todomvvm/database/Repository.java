@@ -36,6 +36,7 @@ public LiveData<TaskEntry> getTaskById(int taskId){
     }
 
     public  void  insertTask(final TaskEntry task){
+
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
